@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accounts Figures</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --accent: #c8622a;
+    --accent-light: #e8874d;
+    --muted: #7a7568;
+    --border: #ccc5b5;
+    --green: #2d6a4f;
+    --shadow: rgba(26,26,46,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    padding: 40px 20px 80px;
+    background-image: 
+      repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(0,0,0,0.03) 28px),
+      radial-gradient(ellipse at 80% 10%, rgba(200,98,42,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse at 10% 90%, rgba(45,106,79,0.05) 0%, transparent 50%);
+  }
+
+  .wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid var(--ink);
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .header-left h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .header-left p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  .header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+
+  .badge {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+  }
+
+  /* Progress */
+  .progress-bar {
+    width: 100%;
+    height: 3px;
+    background: var(--border);
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+  .progress-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 40px;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .section-code {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 2px 8px;
+    letter-spacing: 0.1em;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Entry Row */
+  .entry-row {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-bottom: 12px;
+    position: relative;
+    transition: box-shadow 0.2s;
+  }
+
+  .entry-row:hover {
+    box-shadow: 4px 4px 0 var(--shadow);
+  }
+
+  .entry-row-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .entry-row-label .dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .fields-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 120px;
+    gap: 12px;
+    align-items: end;
+  }
+
+  .fields-grid.wide {
+    grid-template-columns: 1.5fr 1fr 1fr 120px;
+  }
+
+  @media (max-width: 600px) {
+    .fields-grid, .fields-grid.wide {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  label .req {
+    color: var(--accent);
+  }
+
+  input, select {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: var(--paper);
+    padding: 9px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  input:focus, select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(200,98,42,0.12);
+  }
+
+  input[type="date"] {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+  }
+
+  input[type="number"] {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.88rem;
+  }
+
+  input::placeholder {
+    color: #b5ae9f;
+    font-size: 0.82rem;
+  }
+
+  .amount-wrap {
+    position: relative;
+  }
+  .amount-wrap::before {
+    content: '£';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    pointer-events: none;
+  }
+  .amount-wrap input {
+    padding-left: 24px;
+  }
+
+  /* Totals */
+  .totals-panel {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 28px 32px;
+    margin-top: 48px;
+    margin-bottom: 32px;
+  }
+
+  .totals-panel h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    opacity: 0.7;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+  }
+
+  .totals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .total-item label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    color: var(--paper);
+  }
+
+  .total-item .amount {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin-top: 4px;
+    color: var(--paper);
+  }
+
+  .total-item .amount.grand {
+    font-size: 2.2rem;
+    color: #f0c080;
+  }
+
+  .divider-line {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    margin-bottom: 24px;
+  }
+
+  /* Actions */
+  .actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    border: 2px solid;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+  .btn-primary:hover {
+    background: var(--accent-light);
+    border-color: var(--accent-light);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--ink);
+  }
+  .btn-secondary:hover {
+    border-color: var(--ink);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    border-color: rgba(255,255,255,0.25);
+    color: var(--paper);
+  }
+  .btn-ghost:hover {
+    border-color: rgba(255,255,255,0.6);
+  }
+
+  /* Success */
+  #success-banner {
+    display: none;
+    background: var(--green);
+    color: white;
+    padding: 18px 24px;
+    margin-bottom: 24px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    line-height: 1.7;
+  }
+  #success-banner .backup-note {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.8rem;
+    background: rgba(255,255,255,0.15);
+    padding: 6px 12px;
+    letter-spacing: 0.06em;
+  }
+
+  .meta-bar {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 20px 24px;
+    margin-bottom: 32px;
+  }
+  .meta-bar .field { flex: 1; min-width: 160px; }
+  .meta-bar input, .meta-bar select { background: var(--paper); }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="header-left">
+      <h1>Accounts<br>Figures</h1>
+      <p>Account Code Reference Form</p>
+    </div>
+    <div class="header-right">
+      <div class="badge" style="background:var(--accent)">Self-Assessment</div>
+    </div>
+  </header>
+
+  <div id="success-banner">✓ &nbsp;Form submitted successfully! Your data has been sent.<span class="backup-note">💾 &nbsp;Please save the downloaded file as a back-up.</span></div>
+
+  
+  <div class="meta-bar">
+    <div class="field">
+      <label>Full Name <span class="req">*</span></label>
+      <input type="text" id="meta-name" placeholder="e.g. Jane Smith">
+    </div>
+    <div class="field">
+      <label>Period <span class="req">*</span></label>
+      <select id="meta-quarter">
+        <option value="">&#8212; Select period &#8212;</option>
+        <option value="Year End 5th April">Year End 5th April</option>
+        <option value="QE March">QE March</option>
+        <option value="QE June">QE June</option>
+        <option value="QE September">QE September</option>
+        <option value="QE December">QE December</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Year <span class="req">*</span></label>
+      <input type="number" id="meta-year" placeholder="e.g. 2025" min="2000" max="2099">
+    </div>
+  </div>
+
+  <div class="progress-label" id="progress-label">0 of 0 entries filled</div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+
+  <!-- REVENUE -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-code">100</span>
+      <span class="section-title">Revenue</span>
+      <div class="section-line"></div>
+    </div>
+    <div id="revenue-entries"></div>
+    <button class="btn btn-secondary" onclick="addEntry('revenue', 'Revenue', 100, '')">+ Add Revenue Entry</button>
+  </div>
+
+  <!-- DIRECT COSTS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-code">200</span>
+      <span class="section-title">Direct Costs</span>
+      <div class="section-line"></div>
+    </div>
+    <div id="direct-entries"></div>
+    <button class="btn btn-secondary" onclick="addEntry('direct', 'Direct Costs', 200, '')">+ Add Direct Cost Entry</button>
+  </div>
+
+  <!-- USE OF HOME -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-code">300</span>
+      <span class="section-title">Use of Home</span>
+      <div class="section-line"></div>
+    </div>
+    <div id="home-entries"></div>
+    <button class="btn btn-secondary" onclick="addEntry('home', 'Use of Home', 300, '', homeDescriptions)">+ Add Home Expense</button>
+  </div>
+
+  <!-- TRAVEL -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-code">301</span>
+      <span class="section-title">Travelling Expenses</span>
+      <div class="section-line"></div>
+    </div>
+    <div id="travel-entries"></div>
+    <button class="btn btn-secondary" onclick="addEntry('travel', 'Traveling Expenses', 301, '', travelDescriptions)">+ Add Travel Entry</button>
+  </div>
+
+  <!-- MOTOR -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-code">302</span>
+      <span class="section-title">Motor Expenses</span>
+      <div class="section-line"></div>
+    </div>
+    <div id="motor-entries"></div>
+    <button class="btn btn-secondary" onclick="addEntry('motor', 'Motor Expenses', 302, '', motorDescriptions)">+ Add Motor Expense</button>
+  </div>
+
+  <!-- PHONE -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-code">303</span>
+      <span class="section-title">Telephone and Internet</span>
+      <div class="section-line"></div>
+    </div>
+    <div id="phone-entries"></div>
+    <button class="btn btn-secondary" onclick="addEntry('phone', 'Telephone and Internet', 303, '', phoneDescriptions)">+ Add Phone/Internet Entry</button>
+  </div>
+
+  <!-- OTHER SECTIONS (built by JS) -->
+  <div id="other-sections"></div>
+
+  <!-- TOTALS -->
+  <div class="totals-panel">
+    <h2>Summary Totals</h2>
+    <div class="totals-grid">
+      <div class="total-item">
+        <label>Total Revenue</label>
+        <div class="amount" id="total-revenue">£0.00</div>
+      </div>
+      <div class="total-item">
+        <label>Total Expenses</label>
+        <div class="amount" id="total-expenses">£0.00</div>
+      </div>
+      <div class="total-item">
+        <label>Net Position</label>
+        <div class="amount grand" id="total-net">£0.00</div>
+      </div>
+    </div>
+    <hr class="divider-line">
+    <div class="actions">
+      <button class="btn btn-primary" onclick="exportCSV()">Submit</button>
+      <button class="btn btn-ghost" onclick="clearAll()">✕ Clear All</button>
+    </div>
+    <div id="backup-note" style="display:none; margin-top:16px; font-family:'DM Mono',monospace; font-size:0.75rem; letter-spacing:0.07em; color:#a8d5b5; background:rgba(255,255,255,0.08); padding:10px 14px; border-left:3px solid #a8d5b5;">
+      💾 &nbsp;Please save the downloaded file as a back-up.
+    </div>
+  </div>
+
+</div>
+
+<script>
+var entryCount = {};
+
+const homeDescriptions = ['Rent','Mortgage interest','Repairs and maintenance','Water rates','Council tax','Service charges','Home insurance','Gas / Electricity','Cleaning','Other home costs'];
+const travelDescriptions = ['TFL','Rail','Taxis','Accommodation','Subsistence','Flights','Buses','Other travel'];
+const motorDescriptions = ['Petrol','Road tax','Insurance','Repairs/Servicing/MOT','Breakdown cover','Cleaning/car washing','Other (e.g. Vehicle Tracker)','Parking','Congestion charges','Lease'];
+const phoneDescriptions = ['Mobile phone','Home phone / internet','Other Wifi/ SIM costs'];
+
+const otherSections = [
+  { id: 'insurance', label: 'Business Insurance', code: 304 },
+  { id: 'literature', label: 'Professional Literature', code: 305 },
+  { id: 'subscriptions', label: 'Subscriptions', code: 306 },
+  { id: 'courses', label: 'Courses and Conferences', code: 307 },
+  { id: 'laundry', label: 'Laundry and Protecting Work Clothing', code: 308 },
+  { id: 'advertising', label: 'Advertising and Marketing', code: 309 },
+  { id: 'contractor', label: 'Contractor/Secretarial Assistance', code: 310 },
+  { id: 'accountancy', label: 'Accountancy and Bookkeeping', code: 311 },
+  { id: 'printing', label: 'Printing, Postage and Stationery', code: 312 },
+  { id: 'computer', label: 'Computer Expenses', code: 313 },
+  { id: 'sundry', label: 'Sundry Expenses', code: 314 },
+  { id: 'capital', label: 'Capital Expenditure', code: 315 },
+  { id: 'bank', label: 'Bank Charges', code: 316 },
+  { id: 'loan', label: 'Loan', code: 850 },
+  { id: 'charity', label: 'Charitable Donations', code: 900 },
+];
+
+function addEntry(sectionId, category, code, defaultDesc, descs) {
+  const container = document.getElementById(sectionId + '-entries');
+  if (!entryCount[sectionId]) entryCount[sectionId] = 0;
+  const idx = ++entryCount[sectionId];
+  const rowId = sectionId + '-' + idx;
+
+  const descField = descs && descs.length
+    ? `<select id="${rowId}-desc" onchange="calcTotals()">
+        <option value="">— Select type —</option>
+        ${descs.map(d => `<option value="${d}"${d===defaultDesc?' selected':''}>${d}</option>`).join('')}
+       </select>`
+    : `<input type="text" id="${rowId}-desc" placeholder="Description" onchange="calcTotals()">`;
+
+  const row = document.createElement('div');
+  row.className = 'entry-row';
+  row.id = rowId;
+  row.dataset.category = category;
+  row.dataset.code = code;
+  row.dataset.isRevenue = category === 'Revenue' ? '1' : '0';
+  row.innerHTML = `
+    <div class="entry-row-label"><span class="dot"></span> Entry ${idx} &nbsp;·&nbsp; Code ${code}</div>
+    <div class="fields-grid wide">
+      <div class="field">
+        <label>Description</label>
+        ${descField}
+      </div>
+      <div class="field">
+        <label>Payee</label>
+        <input type="text" id="${rowId}-payee" placeholder="Payee name" oninput="calcTotals()">
+      </div>
+      <div class="field">
+        <label>Date <span class="req">*</span></label>
+        <input type="date" id="${rowId}-date" oninput="calcTotals()">
+      </div>
+      <div class="field">
+        <label>Amount <span class="req">*</span></label>
+        <div class="amount-wrap">
+          <input type="number" id="${rowId}-amount" step="0.01" min="0" placeholder="0.00" oninput="calcTotals()">
+        </div>
+      </div>
+    </div>`;
+  container.appendChild(row);
+  calcTotals();
+}
+
+
+function calcTotals() {
+  let revenue = 0, expenses = 0, filled = 0, total = 0;
+  document.querySelectorAll('.entry-row').forEach(row => {
+    total++;
+    const amtEl = row.querySelector('input[type="number"]');
+    const dateEl = row.querySelector('input[type="date"]');
+    const amt = parseFloat(amtEl ? amtEl.value : 0) || 0;
+    if (amt > 0 || (dateEl && dateEl.value)) filled++;
+    if (row.dataset.isRevenue === '1') revenue += amt;
+    else expenses += amt;
+  });
+
+  document.getElementById('total-revenue').textContent = '\u00a3' + revenue.toFixed(2);
+  document.getElementById('total-expenses').textContent = '\u00a3' + expenses.toFixed(2);
+  const net = revenue - expenses;
+  const netEl = document.getElementById('total-net');
+  netEl.textContent = (net < 0 ? '-\u00a3' : '\u00a3') + Math.abs(net).toFixed(2);
+  netEl.style.color = net < 0 ? '#e07070' : '#f0c080';
+
+  const pct = total ? Math.round((filled / total) * 100) : 0;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = filled + ' of ' + total + ' entries filled';
+}
+
+function exportCSV() {
+  // --- Validation ---
+  var errors = [];
+  var metaName = document.getElementById('meta-name').value.trim();
+  var metaQuarter = document.getElementById('meta-quarter').value;
+  var metaYear = document.getElementById('meta-year').value.trim();
+
+  if (!metaName) errors.push('Full Name is required');
+  if (!metaQuarter) errors.push('Period must be selected');
+  if (!metaYear) errors.push('Year is required');
+
+  var missingDates = [];
+  document.querySelectorAll('.entry-row').forEach(function(row) {
+    var amtEl = row.querySelector('input[type="number"]');
+    var dateEl = row.querySelector('input[type="date"]');
+    var amtRaw = amtEl ? parseFloat(amtEl.value) : NaN;
+    var date = dateEl ? dateEl.value : '';
+    if (!isNaN(amtRaw) && amtEl.value !== '' && !date) {
+      var category = row.dataset.category;
+      var entryLabel = row.querySelector('.entry-row-label') ? row.querySelector('.entry-row-label').textContent.trim() : '';
+      missingDates.push(category + ' — ' + entryLabel);
+    }
+  });
+
+  if (missingDates.length > 0) {
+    errors.push('Date is required for entries with an amount:\n  • ' + missingDates.join('\n  • '));
+  }
+
+  if (errors.length > 0) {
+    alert('Please fix the following before downloading:\n\n• ' + errors.join('\n• '));
+    return;
+  }
+
+  // --- Build CSV ---
+  const rows = [['ExpenseCategory','Payee','Reference','Description','Date','Amount','AccountCode','TaxType']];
+  let hasData = false;
+
+  document.querySelectorAll('.entry-row').forEach(row => {
+    const descEl = row.querySelector('select, input[type="text"]');
+    const payeeEl = row.querySelector('input[id$="-payee"]');
+    const dateEl = row.querySelector('input[type="date"]');
+    const amtEl = row.querySelector('input[type="number"]');
+    const amtRaw = amtEl ? parseFloat(amtEl.value) : '';
+    const date = dateEl ? dateEl.value : '';
+    if ((!amtRaw && amtRaw !== 0) && !date) return;
+    hasData = true;
+    var isRevenue = row.dataset.isRevenue === '1';
+    var exportAmt = '';
+    if (amtRaw !== '' && !isNaN(amtRaw)) {
+      if (isRevenue) {
+        exportAmt = amtRaw.toFixed(2);
+      } else {
+        exportAmt = amtRaw > 0 ? (-Math.abs(amtRaw)).toFixed(2) : amtRaw.toFixed(2);
+      }
+    }
+    rows.push([
+      row.dataset.category,
+      payeeEl ? payeeEl.value : '',
+      '',
+      descEl ? descEl.value : '',
+      date,
+      exportAmt,
+      row.dataset.code,
+      'No VAT'
+    ]);
+  });
+
+  if (!hasData) { alert('Please fill in at least one entry before exporting.'); return; }
+
+  var metaNameClean = (document.getElementById('meta-name').value || 'Unknown').trim().replace(/\s+/g, '_');
+  var quarterClean = (document.getElementById('meta-quarter').value || 'QE').replace(/\s+/g, '_');
+  var yearVal = document.getElementById('meta-year').value || new Date().getFullYear();
+  var filename = metaNameClean + '_' + quarterClean + '_' + yearVal + '.csv';
+
+  const csv = rows.map(r => r.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\n');
+
+  var WEBHOOK_URL = 'https://hook.eu1.make.com/zwp9hym8vcgdzshikg434ifcznvliuhq';
+
+  if (!WEBHOOK_URL || WEBHOOK_URL === '') {
+    alert('Submission error: No webhook URL configured. Please contact the form administrator.');
+    return;
+  }
+
+  var submitBtn = document.querySelector('.btn-primary');
+  submitBtn.textContent = 'Sending…';
+  submitBtn.disabled = true;
+
+  fetch(WEBHOOK_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      filename: filename,
+      csv: csv,
+      name: document.getElementById('meta-name').value.trim(),
+      quarter: document.getElementById('meta-quarter').value,
+      year: document.getElementById('meta-year').value,
+      submittedAt: new Date().toISOString()
+    })
+  })
+  .then(function(res) {
+    if (res.ok || res.status === 200 || res.status === 204) {
+      // Trigger CSV download as back-up
+      var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      var link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+
+      var banner = document.getElementById('success-banner');
+      banner.style.display = 'flex';
+      setTimeout(function() { banner.style.display = 'none'; }, 12000);
+      submitBtn.textContent = 'Submitted ✓';
+      submitBtn.style.background = 'var(--green)';
+      submitBtn.style.borderColor = 'var(--green)';
+      document.getElementById('backup-note').style.display = 'block';
+    } else {
+      throw new Error('Server responded with status ' + res.status);
+    }
+  })
+  .catch(function(err) {
+    alert('Submission failed. Please try again or contact the form administrator.\n\nError: ' + err.message);
+    submitBtn.textContent = 'Submit';
+    submitBtn.disabled = false;
+  });
+}
+
+function clearAll() {
+  if (!confirm('Clear all entered data?')) return;
+  document.querySelectorAll('.entry-row input, .entry-row select').forEach(function(el) { el.value = ''; });
+  calcTotals();
+}
+
+// Build other sections HTML
+const otherEl = document.getElementById('other-sections');
+otherSections.forEach(function(s) {
+  const section = document.createElement('div');
+  section.className = 'section';
+  section.innerHTML =
+    '<div class="section-header">' +
+      '<span class="section-code">' + s.code + '</span>' +
+      '<span class="section-title">' + s.label + '</span>' +
+      '<div class="section-line"></div>' +
+    '</div>' +
+    '<div id="' + s.id + '-entries"></div>' +
+    '<button class="btn btn-secondary" onclick="addEntry(\'' + s.id + '\', \'' + s.label + '\', ' + s.code + ', \'\')">+ Add ' + s.label + ' Entry</button>';
+  otherEl.appendChild(section);
+  addEntry(s.id, s.label, s.code, '');
+});
+
+// Add one initial entry per main section
+var sectionMap = {
+  revenue: ['Revenue', 100, null],
+  direct: ['Direct Costs', 200, null],
+  home: ['Use of Home', 300, homeDescriptions],
+  travel: ['Traveling Expenses', 301, travelDescriptions],
+  motor: ['Motor Expenses', 302, motorDescriptions],
+  phone: ['Telephone and Internet', 303, phoneDescriptions],
+};
+Object.keys(sectionMap).forEach(function(id) {
+  var info = sectionMap[id];
+  addEntry(id, info[0], info[1], '', info[2]);
+});
+
+calcTotals();
+</script>
+</body>
+</html>
