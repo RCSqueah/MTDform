@@ -406,9 +406,76 @@
   }
   .meta-bar .field { flex: 1; min-width: 160px; }
   .meta-bar input, .meta-bar select { background: var(--paper); }
+
+  /* Save indicator */
+  #save-indicator {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1000;
+  }
+  #save-indicator.visible { opacity: 1; }
+
+  /* Restore modal */
+  #restore-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,26,46,0.55);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+  }
+  #restore-modal.visible { display: flex; }
+  .modal-box {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    padding: 36px 40px;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 8px 8px 0 rgba(26,26,46,0.18);
+  }
+  .modal-box h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+  }
+  .modal-box p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+  .modal-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 </style>
 </head>
 <body>
+<!-- Restore modal -->
+<div id="restore-modal">
+  <div class="modal-box">
+    <h2>Restore saved data?</h2>
+    <p>You have unsaved form data from a previous session. Would you like to restore it?</p>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="restoreData()">Restore</button>
+      <button class="btn btn-secondary" onclick="discardSaved()">Start Fresh</button>
+    </div>
+  </div>
+</div>
+
+<!-- Save indicator -->
+<div id="save-indicator">✓ Saved</div>
+
 <div class="wrapper">
 
   <header>
@@ -539,6 +606,7 @@
     <div class="actions">
       <button class="btn btn-primary" onclick="exportCSV()">Submit</button>
       <button class="btn btn-ghost" onclick="clearAll()">✕ Clear All</button>
+      <button class="btn btn-ghost" onclick="clearSaved()" title="Remove saved data from browser">🗑 Clear Saved Data</button>
     </div>
     <div id="backup-note" style="display:none; margin-top:16px; font-family:'DM Mono',monospace; font-size:0.75rem; letter-spacing:0.07em; color:#a8d5b5; background:rgba(255,255,255,0.08); padding:10px 14px; border-left:3px solid #a8d5b5;">
       💾 &nbsp;Please save the downloaded file as a back-up.
@@ -549,6 +617,106 @@
 
 <script>
 var entryCount = {};
+var saveTimer = null;
+var pendingRestore = null;
+var SAVE_KEY = 'accountsFigures_v1';
+
+// ── Save / Restore ──────────────────────────────────────────────
+function collectFormData() {
+  var data = {
+    meta: {
+      name: document.getElementById('meta-name').value,
+      quarter: document.getElementById('meta-quarter').value,
+      year: document.getElementById('meta-year').value
+    },
+    entries: []
+  };
+  document.querySelectorAll('.entry-row').forEach(function(row) {
+    var descEl = row.querySelector('select, input[type="text"]');
+    var payeeEl = row.querySelector('input[id$="-payee"]');
+    var dateEl  = row.querySelector('input[type="date"]');
+    var amtEl   = row.querySelector('input[type="number"]');
+    data.entries.push({
+      id:       row.id,
+      category: row.dataset.category,
+      code:     row.dataset.code,
+      isRevenue:row.dataset.isRevenue,
+      desc:     descEl  ? descEl.value  : '',
+      payee:    payeeEl ? payeeEl.value : '',
+      date:     dateEl  ? dateEl.value  : '',
+      amount:   amtEl   ? amtEl.value   : ''
+    });
+  });
+  return data;
+}
+
+function saveNow() {
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify(collectFormData()));
+    var ind = document.getElementById('save-indicator');
+    ind.classList.add('visible');
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function() { ind.classList.remove('visible'); }, 2000);
+  } catch(e) {}
+}
+
+function autoSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveNow, 800);
+}
+
+function restoreData() {
+  document.getElementById('restore-modal').classList.remove('visible');
+  if (!pendingRestore) return;
+  var d = pendingRestore;
+  // Meta fields
+  document.getElementById('meta-name').value    = d.meta.name    || '';
+  document.getElementById('meta-quarter').value = d.meta.quarter || '';
+  document.getElementById('meta-year').value    = d.meta.year    || '';
+  // Fill entry rows that already exist (built during page init)
+  (d.entries || []).forEach(function(e) {
+    var row = document.getElementById(e.id);
+    if (!row) return;
+    var descEl  = row.querySelector('select, input[type="text"]');
+    var payeeEl = row.querySelector('input[id$="-payee"]');
+    var dateEl  = row.querySelector('input[type="date"]');
+    var amtEl   = row.querySelector('input[type="number"]');
+    if (descEl)  descEl.value  = e.desc   || '';
+    if (payeeEl) payeeEl.value = e.payee  || '';
+    if (dateEl)  dateEl.value  = e.date   || '';
+    if (amtEl)   amtEl.value   = e.amount || '';
+  });
+  calcTotals();
+}
+
+function discardSaved() {
+  document.getElementById('restore-modal').classList.remove('visible');
+  localStorage.removeItem(SAVE_KEY);
+}
+
+function clearSaved() {
+  if (!confirm('Remove saved data from this browser? Your current entries will not be cleared.')) return;
+  localStorage.removeItem(SAVE_KEY);
+  var ind = document.getElementById('save-indicator');
+  ind.textContent = '✓ Cleared';
+  ind.classList.add('visible');
+  setTimeout(function() { ind.classList.remove('visible'); ind.textContent = '✓ Saved'; }, 2000);
+}
+
+function checkForSavedData() {
+  try {
+    var raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return;
+    var d = JSON.parse(raw);
+    var hasContent = (d.meta && (d.meta.name || d.meta.quarter || d.meta.year)) ||
+      (d.entries && d.entries.some(function(e){ return e.desc || e.payee || e.date || e.amount; }));
+    if (hasContent) {
+      pendingRestore = d;
+      document.getElementById('restore-modal').classList.add('visible');
+    }
+  } catch(e) {}
+}
+
 
 const homeDescriptions = ['Rent','Mortgage interest','Repairs and maintenance','Water rates','Council tax','Service charges','Home insurance','Gas / Electricity','Cleaning','Other home costs'];
 const travelDescriptions = ['TFL','Rail','Taxis','Accommodation','Subsistence','Flights','Buses','Other travel'];
@@ -641,6 +809,7 @@ function calcTotals() {
   const pct = total ? Math.round((filled / total) * 100) : 0;
   document.getElementById('progress-fill').style.width = pct + '%';
   document.getElementById('progress-label').textContent = filled + ' of ' + total + ' entries filled';
+  autoSave();
 }
 
 function exportCSV() {
@@ -735,7 +904,7 @@ function exportCSV() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       filename: filename,
-      csv: csv,
+      data: csv,
       name: document.getElementById('meta-name').value.trim(),
       quarter: document.getElementById('meta-quarter').value,
       year: document.getElementById('meta-year').value,
@@ -810,6 +979,15 @@ Object.keys(sectionMap).forEach(function(id) {
 });
 
 calcTotals();
+
+// Listen for changes on meta fields
+['meta-name','meta-quarter','meta-year'].forEach(function(id) {
+  document.getElementById(id).addEventListener('input', autoSave);
+  document.getElementById(id).addEventListener('change', autoSave);
+});
+
+// Check for saved data after page is fully built
+checkForSavedData();
 </script>
 </body>
 </html>
