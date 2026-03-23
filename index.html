@@ -3,479 +3,257 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Accounts Figures</title>
+<title>Accounts Figures v5b</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #1a1a2e;
-    --paper: #f5f0e8;
-    --cream: #ede8dc;
-    --accent: #c8622a;
-    --accent-light: #e8874d;
-    --muted: #7a7568;
-    --border: #ccc5b5;
-    --green: #2d6a4f;
-    --shadow: rgba(26,26,46,0.12);
+    --ink: #1a1a2e; --paper: #f5f0e8; --cream: #ede8dc;
+    --accent: #c8622a; --accent-light: #e8874d; --muted: #7a7568;
+    --border: #ccc5b5; --green: #2d6a4f; --shadow: rgba(26,26,46,0.12);
   }
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    min-height: 100vh;
-    padding: 40px 20px 80px;
-    background-image: 
+    background: var(--paper); color: var(--ink);
+    font-family: 'DM Sans', sans-serif; font-weight: 300;
+    min-height: 100vh; padding: 40px 20px 80px;
+    background-image:
       repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(0,0,0,0.03) 28px),
       radial-gradient(ellipse at 80% 10%, rgba(200,98,42,0.06) 0%, transparent 60%),
       radial-gradient(ellipse at 10% 90%, rgba(45,106,79,0.05) 0%, transparent 50%);
   }
-
-  .wrapper {
-    max-width: 860px;
-    margin: 0 auto;
-  }
-
+  .wrapper { max-width: 1400px; margin: 0 auto; }
   header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 48px;
-    padding-bottom: 24px;
-    border-bottom: 2px solid var(--ink);
-    gap: 20px;
-    flex-wrap: wrap;
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 48px; padding-bottom: 24px; border-bottom: 2px solid var(--ink);
+    gap: 20px; flex-wrap: wrap;
   }
-
   .header-left h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: -0.02em;
+    font-family: 'Playfair Display', serif; font-size: clamp(2rem,5vw,3.2rem);
+    font-weight: 600; line-height: 1; letter-spacing: -0.02em;
   }
-
   .header-left p {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--muted);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-top: 8px;
+    font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--muted);
+    letter-spacing: 0.12em; text-transform: uppercase; margin-top: 8px;
   }
-
-  .header-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-  }
-
+  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
   .badge {
-    background: var(--ink);
-    color: var(--paper);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 4px 10px;
+    background: var(--ink); color: var(--paper); font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px;
   }
-
-  /* Progress */
   .progress-bar {
-    width: 100%;
-    height: 3px;
-    background: var(--border);
-    margin-bottom: 40px;
-    position: relative;
-    overflow: hidden;
+    width: 100%; height: 3px; background: var(--border); margin-bottom: 40px; overflow: hidden;
   }
-  .progress-fill {
-    height: 100%;
-    background: var(--accent);
-    width: 0%;
-    transition: width 0.4s ease;
-  }
+  .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.4s ease; }
   .progress-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    margin-bottom: 8px;
+    font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--muted);
+    letter-spacing: 0.08em; margin-bottom: 8px;
   }
-
-  /* Section */
-  .section {
-    margin-bottom: 40px;
-    animation: fadeUp 0.4s ease both;
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 20px;
-  }
-
+  .section { margin-bottom: 40px; }
+  .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
   .section-code {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--paper);
-    background: var(--ink);
-    padding: 2px 8px;
-    letter-spacing: 0.1em;
+    font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--paper);
+    background: var(--ink); padding: 2px 8px; letter-spacing: 0.1em;
   }
-
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.25rem;
-    font-weight: 600;
-  }
-
-  .section-line {
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  /* Entry Row */
+  .section-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 600; }
+  .section-line { flex: 1; height: 1px; background: var(--border); }
   .entry-row {
-    background: var(--cream);
-    border: 1px solid var(--border);
-    padding: 20px;
-    margin-bottom: 12px;
-    position: relative;
-    transition: box-shadow 0.2s;
+    background: var(--cream); border: 1px solid var(--border); padding: 20px;
+    margin-bottom: 12px; transition: box-shadow 0.2s;
   }
-
-  .entry-row:hover {
-    box-shadow: 4px 4px 0 var(--shadow);
-  }
-
+  .entry-row:hover { box-shadow: 4px 4px 0 var(--shadow); }
   .entry-row-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; width: 100%;
   }
-
-  .entry-row-label .dot {
-    width: 6px;
-    height: 6px;
-    background: var(--accent);
-    border-radius: 50%;
-    display: inline-block;
-  }
-
+  .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; display: inline-block; }
   .fields-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 120px;
-    gap: 12px;
-    align-items: end;
+    display: grid; grid-template-columns: 1.8fr 1.2fr 1.6fr 1fr 140px 110px 110px; gap: 14px; align-items: end;
   }
-
-  .fields-grid.wide {
-    grid-template-columns: 1.5fr 1fr 1fr 120px;
+  .fields-grid.has-biz {
+    grid-template-columns: minmax(180px,1.8fr) minmax(120px,1.2fr) minmax(140px,1.6fr) minmax(80px,1fr) 120px 85px 110px 100px 100px;
+    gap: 10px;
   }
-
-  @media (max-width: 600px) {
-    .fields-grid, .fields-grid.wide {
-      grid-template-columns: 1fr 1fr;
-    }
+  .entry-row { overflow-x: auto; }
+  .biz-pct-field input { font-size: 0.88rem; padding: 9px 12px; }
+  .adjusted-amount {
+    font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--green);
+    background: rgba(45,106,79,0.07); border: 1px solid rgba(45,106,79,0.2);
+    padding: 9px 6px; display: block; white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; text-align: right; box-sizing: border-box;
   }
-
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+  /* Motor conditional: keep hidden fields in grid flow but invisible so columns don't collapse */
+  .biz-pct-field.biz-hidden, .adjusted-field.biz-hidden {
+    visibility: hidden; pointer-events: none;
   }
-
-  label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  label .req {
-    color: var(--accent);
-  }
-
+  .fields-grid { align-items: stretch; }
+  .field { justify-content: space-between; }
+  @media(max-width:600px) { .fields-grid { grid-template-columns: 1fr 1fr; } }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  label .req { color: var(--accent); }
   input, select {
-    width: 100%;
-    border: 1px solid var(--border);
-    background: var(--paper);
-    padding: 9px 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.88rem;
-    color: var(--ink);
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    -webkit-appearance: none;
-    appearance: none;
+    width: 100%; border: 1px solid var(--border); background: var(--paper);
+    padding: 9px 12px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+    color: var(--ink); outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none; appearance: none;
   }
-
-  input:focus, select:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(200,98,42,0.12);
-  }
-
-  input[type="date"] {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.8rem;
-  }
-
-  input[type="number"] {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.88rem;
-  }
-
-  input::placeholder {
-    color: #b5ae9f;
-    font-size: 0.82rem;
-  }
-
-  .amount-wrap {
-    position: relative;
-  }
+  input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200,98,42,0.12); }
+  input[type="date"] { font-family: 'DM Mono', monospace; font-size: 0.8rem; }
+  input[type="number"] { font-family: 'DM Mono', monospace; }
+  input::placeholder { color: #b5ae9f; font-size: 0.82rem; }
+  .amount-wrap { position: relative; }
   .amount-wrap::before {
-    content: '£';
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--muted);
-    pointer-events: none;
+    content: '£'; position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--muted); pointer-events: none;
   }
-  .amount-wrap input {
-    padding-left: 24px;
-  }
-
-  /* Totals */
-  .totals-panel {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 28px 32px;
-    margin-top: 48px;
-    margin-bottom: 32px;
-  }
-
-  .totals-panel h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-    opacity: 0.7;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-  }
-
-  .totals-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 24px;
-    margin-bottom: 24px;
-  }
-
-  .total-item label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    opacity: 0.5;
-    color: var(--paper);
-  }
-
-  .total-item .amount {
-    font-family: 'DM Mono', monospace;
-    font-size: 1.6rem;
-    font-weight: 500;
-    margin-top: 4px;
-    color: var(--paper);
-  }
-
-  .total-item .amount.grand {
-    font-size: 2.2rem;
-    color: #f0c080;
-  }
-
-  .divider-line {
-    border: none;
-    border-top: 1px solid rgba(255,255,255,0.15);
-    margin-bottom: 24px;
-  }
-
-  /* Actions */
-  .actions {
-    display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
-  }
-
-  .btn {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 14px 28px;
-    border: 2px solid;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .btn-primary {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: white;
-  }
-  .btn-primary:hover {
-    background: var(--accent-light);
-    border-color: var(--accent-light);
-    transform: translateY(-1px);
-  }
-
-  .btn-secondary {
-    background: transparent;
-    border-color: var(--border);
-    color: var(--ink);
-  }
-  .btn-secondary:hover {
-    border-color: var(--ink);
-  }
-
-  .btn-ghost {
-    background: transparent;
-    border-color: rgba(255,255,255,0.25);
-    color: var(--paper);
-  }
-  .btn-ghost:hover {
-    border-color: rgba(255,255,255,0.6);
-  }
-
-  /* Success */
-  #success-banner {
-    display: none;
-    background: var(--green);
-    color: white;
-    padding: 18px 24px;
-    margin-bottom: 24px;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    line-height: 1.7;
-  }
-  #success-banner .backup-note {
-    display: block;
-    margin-top: 6px;
-    font-size: 0.8rem;
-    background: rgba(255,255,255,0.15);
-    padding: 6px 12px;
-    letter-spacing: 0.06em;
-  }
-
+  .amount-wrap input { padding-left: 24px; }
   .meta-bar {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    background: var(--cream);
-    border: 1px solid var(--border);
-    padding: 20px 24px;
-    margin-bottom: 32px;
+    display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-end;
+    background: var(--cream); border: 1px solid var(--border);
+    padding: 20px 24px; margin-bottom: 32px;
   }
   .meta-bar .field { flex: 1; min-width: 160px; }
-  .meta-bar input, .meta-bar select { background: var(--paper); }
+  .totals-panel { background: var(--ink); color: var(--paper); padding: 28px 32px; margin-top: 48px; margin-bottom: 32px; }
+  .totals-panel h2 {
+    font-family: 'DM Mono', monospace; font-size: 0.75rem; margin-bottom: 20px;
+    opacity: 0.7; letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .totals-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: 24px; margin-bottom: 24px; }
+  .total-item label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.5; color: var(--paper); }
+  .total-item .amount { font-family: 'DM Mono', monospace; font-size: 1.6rem; font-weight: 500; margin-top: 4px; color: var(--paper); }
+  .total-item .amount.grand { font-size: 2.2rem; color: #f0c080; }
+  .divider-line { border: none; border-top: 1px solid rgba(255,255,255,0.15); margin-bottom: 24px; }
+  .actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn {
+    font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 14px 28px; border: 2px solid; cursor: pointer;
+    transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary { background: var(--accent); border-color: var(--accent); color: white; }
+  .btn-primary:hover { background: var(--accent-light); border-color: var(--accent-light); }
+  .btn-secondary { background: transparent; border-color: var(--border); color: var(--ink); }
+  .btn-secondary:hover { border-color: var(--ink); }
+  .btn-ghost { background: transparent; border-color: rgba(255,255,255,0.25); color: var(--paper); }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.6); }
+  #success-banner {
+    display: none; background: var(--green); color: white; padding: 16px 24px;
+    margin-bottom: 24px; font-family: 'DM Mono', monospace; font-size: 0.75rem;
+    letter-spacing: 0.08em; align-items: center; gap: 12px;
+  }
+  #autosave-indicator {
+    font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted); display: flex; align-items: center;
+    gap: 6px; transition: opacity 0.4s;
+  }
+  #autosave-indicator.saving { color: var(--accent); }
+  #autosave-indicator.saved  { color: var(--green); }
+  .autosave-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: currentColor;
+    display: inline-block;
+  }
+  .btn-duplicate {
+    width: 100%; background: transparent; border: 1px solid var(--border);
+    color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.06em; text-transform: uppercase; padding: 9px 4px;
+    cursor: pointer; transition: all 0.2s; display: block;
+  }
+  .btn-duplicate:hover { border-color: var(--accent); color: var(--accent); background: rgba(200,98,42,0.06); }
+  .field-duplicate { justify-content: flex-end; }
+  .btn-remove {
+    width: 100%; background: transparent; border: 1px solid var(--border);
+    color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.06em; text-transform: uppercase; padding: 9px 4px;
+    cursor: pointer; transition: all 0.2s; display: block;
+  }
+  .btn-remove:hover { border-color: #c0392b; color: #c0392b; background: rgba(192,57,43,0.06); }
+  .tooltip-wrap {
+    position: relative; display: inline-block; cursor: help;
+    color: var(--muted); font-size: 0.75rem; vertical-align: middle;
+  }
+  .tooltip-box {
+    display: none; position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%);
+    background: var(--ink); color: var(--paper); font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem; letter-spacing: 0; text-transform: none; white-space: nowrap;
+    padding: 6px 10px; z-index: 10; pointer-events: none;
+  }
+  .tooltip-box::after {
+    content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+    border: 5px solid transparent; border-top-color: var(--ink);
+  }
+  .tooltip-wrap:hover .tooltip-box { display: block; }
+  .section-tip { font-size: 0.8rem; vertical-align: middle; }
+  .section-tooltip-box { white-space: normal; width: 320px; line-height: 1.5; text-align: left; }
 
-  /* Save indicator */
-  #save-indicator {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: var(--ink);
-    color: var(--paper);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 8px 14px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    z-index: 1000;
+  /* Business Use % styles */
+  .section-biz-bar {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    background: rgba(45,106,79,0.07); border: 1px solid rgba(45,106,79,0.25);
+    padding: 12px 18px; margin-bottom: 14px;
   }
-  #save-indicator.visible { opacity: 1; }
+  .section-biz-bar label {
+    font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--green); white-space: nowrap;
+  }
+  .section-biz-bar .biz-pct-wrap { display: flex; align-items: center; gap: 8px; }
+  .section-biz-bar input[type="number"] {
+    width: 72px; border: 1px solid rgba(45,106,79,0.4); background: var(--paper);
+    padding: 6px 10px; font-family: 'DM Mono', monospace; font-size: 0.82rem;
+    color: var(--green); outline: none;
+  }
+  .section-biz-bar input[type="number"]:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(45,106,79,0.12); }
+  .section-biz-bar .pct-symbol {
+    font-family: 'DM Mono', monospace; font-size: 0.82rem; color: var(--green);
+  }
+  .section-biz-bar .biz-hint {
+    font-family: 'DM Sans', sans-serif; font-size: 0.72rem; color: var(--muted); font-style: italic;
+  }
 
-  /* Restore modal */
-  #restore-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(26,26,46,0.55);
-    z-index: 2000;
-    align-items: center;
-    justify-content: center;
+  /* Home Office section bar */
+  .home-office-bar {
+    background: rgba(45,106,79,0.07); border: 1px solid rgba(45,106,79,0.25);
+    padding: 16px 18px; margin-bottom: 14px;
   }
-  #restore-modal.visible { display: flex; }
-  .modal-box {
-    background: var(--paper);
-    border: 2px solid var(--ink);
-    padding: 36px 40px;
-    max-width: 420px;
-    width: 90%;
-    box-shadow: 8px 8px 0 rgba(26,26,46,0.18);
+  .home-office-bar .bar-row {
+    display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap;
   }
-  .modal-box h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    margin-bottom: 10px;
+  .home-office-bar label {
+    font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--green); white-space: nowrap; display: block; margin-bottom: 4px;
   }
-  .modal-box p {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.88rem;
-    color: var(--muted);
-    margin-bottom: 24px;
-    line-height: 1.6;
+  .home-office-bar input[type="number"] {
+    width: 70px; border: 1px solid rgba(45,106,79,0.4); background: var(--paper);
+    padding: 7px 10px; font-family: 'DM Mono', monospace; font-size: 0.82rem;
+    color: var(--green); outline: none; box-sizing: border-box; display: block;
   }
-  .modal-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .home-office-bar input[type="number"]:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(45,106,79,0.12); }
+  .ho-toggle { display: flex; gap: 0; align-self: flex-end; }
+  .ho-toggle button {
+    font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 7px 14px; border: 1px solid rgba(45,106,79,0.4);
+    background: transparent; color: var(--green); cursor: pointer; transition: all 0.15s;
+  }
+  .ho-toggle button.active { background: var(--green); color: var(--paper); border-color: var(--green); }
+  .ho-toggle button:first-child { border-right: none; }
+  .ho-field { display: flex; flex-direction: column; }
+  .ho-separator { color: var(--muted); font-size: 0.9rem; align-self: flex-end; padding-bottom: 9px; }
+  .ho-preview {
+    font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--green);
+    margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(45,106,79,0.3);
+  }
+  .biz-pct-field { min-width: 90px; }
+  .biz-pct-field label { color: var(--green) !important; }
+  .biz-pct-field input { color: var(--green); }
+  .adjusted-field { min-width: 110px; }
+  .adjusted-field label { color: var(--green) !important; }
+  .adjusted-amount {
+    font-family: 'DM Mono', monospace; font-size: 0.85rem; color: var(--green);
+    background: rgba(45,106,79,0.07); border: 1px solid rgba(45,106,79,0.2);
+    padding: 9px 12px; display: block; min-height: 38px;
+  }
 </style>
 </head>
 <body>
-<!-- Restore modal -->
-<div id="restore-modal">
-  <div class="modal-box">
-    <h2>Restore saved data?</h2>
-    <p>You have unsaved form data from a previous session. Would you like to restore it?</p>
-    <div class="modal-actions">
-      <button class="btn btn-primary" onclick="restoreData()">Restore</button>
-      <button class="btn btn-secondary" onclick="discardSaved()">Start Fresh</button>
-    </div>
-  </div>
-</div>
-
-<!-- Save indicator -->
-<div id="save-indicator">✓ Saved</div>
-
 <div class="wrapper">
 
   <header>
@@ -484,13 +262,12 @@
       <p>Account Code Reference Form</p>
     </div>
     <div class="header-right">
-      <div class="badge" style="background:var(--accent)">Self-Assessment</div>
+      <div id="autosave-indicator"><span class="autosave-dot"></span><span id="autosave-text">Draft saved</span></div>
     </div>
   </header>
 
-  <div id="success-banner">✓ &nbsp;Form submitted successfully! Your data has been sent.<span class="backup-note">💾 &nbsp;Please save the downloaded file as a back-up.</span></div>
+  <div id="success-banner">&#10003; &nbsp;Form submitted successfully! Your CSV has been downloaded.</div>
 
-  
   <div class="meta-bar">
     <div class="field">
       <label>Full Name <span class="req">*</span></label>
@@ -500,11 +277,11 @@
       <label>Period <span class="req">*</span></label>
       <select id="meta-quarter">
         <option value="">&#8212; Select period &#8212;</option>
-        <option value="Year End 5th April">Year End 5th April</option>
         <option value="QE March">QE March</option>
         <option value="QE June">QE June</option>
         <option value="QE September">QE September</option>
         <option value="QE December">QE December</option>
+        <option value="Year End 5th April">Year End 5th April</option>
       </select>
     </div>
     <div class="field">
@@ -516,478 +293,684 @@
   <div class="progress-label" id="progress-label">0 of 0 entries filled</div>
   <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
 
-  <!-- REVENUE -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-code">100</span>
-      <span class="section-title">Revenue</span>
-      <div class="section-line"></div>
-    </div>
-    <div id="revenue-entries"></div>
-    <button class="btn btn-secondary" onclick="addEntry('revenue', 'Revenue', 100, '')">+ Add Revenue Entry</button>
-  </div>
+  <div id="all-sections"></div>
 
-  <!-- DIRECT COSTS -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-code">200</span>
-      <span class="section-title">Direct Costs</span>
-      <div class="section-line"></div>
-    </div>
-    <div id="direct-entries"></div>
-    <button class="btn btn-secondary" onclick="addEntry('direct', 'Direct Costs', 200, '')">+ Add Direct Cost Entry</button>
-  </div>
-
-  <!-- USE OF HOME -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-code">300</span>
-      <span class="section-title">Use of Home</span>
-      <div class="section-line"></div>
-    </div>
-    <div id="home-entries"></div>
-    <button class="btn btn-secondary" onclick="addEntry('home', 'Use of Home', 300, '', homeDescriptions)">+ Add Home Expense</button>
-  </div>
-
-  <!-- TRAVEL -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-code">301</span>
-      <span class="section-title">Travelling Expenses</span>
-      <div class="section-line"></div>
-    </div>
-    <div id="travel-entries"></div>
-    <button class="btn btn-secondary" onclick="addEntry('travel', 'Traveling Expenses', 301, '', travelDescriptions)">+ Add Travel Entry</button>
-  </div>
-
-  <!-- MOTOR -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-code">302</span>
-      <span class="section-title">Motor Expenses</span>
-      <div class="section-line"></div>
-    </div>
-    <div id="motor-entries"></div>
-    <button class="btn btn-secondary" onclick="addEntry('motor', 'Motor Expenses', 302, '', motorDescriptions)">+ Add Motor Expense</button>
-  </div>
-
-  <!-- PHONE -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-code">303</span>
-      <span class="section-title">Telephone and Internet</span>
-      <div class="section-line"></div>
-    </div>
-    <div id="phone-entries"></div>
-    <button class="btn btn-secondary" onclick="addEntry('phone', 'Telephone and Internet', 303, '', phoneDescriptions)">+ Add Phone/Internet Entry</button>
-  </div>
-
-  <!-- OTHER SECTIONS (built by JS) -->
-  <div id="other-sections"></div>
-
-  <!-- TOTALS -->
   <div class="totals-panel">
     <h2>Summary Totals</h2>
     <div class="totals-grid">
       <div class="total-item">
-        <label>Total Revenue</label>
-        <div class="amount" id="total-revenue">£0.00</div>
-      </div>
-      <div class="total-item">
         <label>Total Expenses</label>
-        <div class="amount" id="total-expenses">£0.00</div>
+        <div class="amount" id="total-expenses">&#163;0.00</div>
       </div>
       <div class="total-item">
         <label>Net Position</label>
-        <div class="amount grand" id="total-net">£0.00</div>
+        <div class="amount grand" id="total-net">&#163;0.00</div>
       </div>
     </div>
     <hr class="divider-line">
     <div class="actions">
-      <button class="btn btn-primary" onclick="exportCSV()">Submit</button>
-      <button class="btn btn-ghost" onclick="clearAll()">✕ Clear All</button>
-      <button class="btn btn-ghost" onclick="clearSaved()" title="Remove saved data from browser">🗑 Clear Saved Data</button>
-    </div>
-    <div id="backup-note" style="display:none; margin-top:16px; font-family:'DM Mono',monospace; font-size:0.75rem; letter-spacing:0.07em; color:#a8d5b5; background:rgba(255,255,255,0.08); padding:10px 14px; border-left:3px solid #a8d5b5;">
-      💾 &nbsp;Please save the downloaded file as a back-up.
+      <button class="btn btn-primary" onclick="submitForm()">Submit</button>
+      <button class="btn btn-ghost" onclick="clearAll()">&#10005; Clear All</button>
     </div>
   </div>
 
 </div>
-
 <script>
 var entryCount = {};
-var saveTimer = null;
-var pendingRestore = null;
-var SAVE_KEY = 'accountsFigures_v1';
 
-// ── Save / Restore ──────────────────────────────────────────────
-function collectFormData() {
-  var data = {
-    meta: {
-      name: document.getElementById('meta-name').value,
-      quarter: document.getElementById('meta-quarter').value,
-      year: document.getElementById('meta-year').value
-    },
-    entries: []
-  };
-  document.querySelectorAll('.entry-row').forEach(function(row) {
-    var descEl = row.querySelector('select, input[type="text"]');
-    var payeeEl = row.querySelector('input[id$="-payee"]');
-    var dateEl  = row.querySelector('input[type="date"]');
-    var amtEl   = row.querySelector('input[type="number"]');
-    data.entries.push({
-      id:       row.id,
-      category: row.dataset.category,
-      code:     row.dataset.code,
-      isRevenue:row.dataset.isRevenue,
-      desc:     descEl  ? descEl.value  : '',
-      payee:    payeeEl ? payeeEl.value : '',
-      date:     dateEl  ? dateEl.value  : '',
-      amount:   amtEl   ? amtEl.value   : ''
-    });
-  });
-  return data;
-}
+var homeDescs    = ['Rent','Mortgage interest','Repairs and maintenance','Water rates','Council tax','Service charges','Home insurance','Gas / Electricity','Cleaning','Other home costs'];
+var travelDescs  = ['TFL','Rail','Taxis','Accommodation','Subsistence','Flights','Buses','Other travel'];
+var motorDescs   = ['Petrol','Road tax','Insurance','Repairs/Servicing/MOT','Breakdown cover','Cleaning/car washing','Other (e.g. Vehicle Tracker)','Parking','Congestion charges','Lease'];
 
-function saveNow() {
-  try {
-    localStorage.setItem(SAVE_KEY, JSON.stringify(collectFormData()));
-    var ind = document.getElementById('save-indicator');
-    ind.classList.add('visible');
-    clearTimeout(saveTimer);
-    saveTimer = setTimeout(function() { ind.classList.remove('visible'); }, 2000);
-  } catch(e) {}
-}
+// Motor subcategories that require business use % adjustment
+var motorBizDescs = ['Petrol','Road tax','Insurance','Repairs/Servicing/MOT','Breakdown cover','Cleaning/car washing','Other (e.g. Vehicle Tracker)'];
+var phoneDescs   = ['Mobile phone','Home phone / internet','Other Wifi/ SIM costs'];
 
-function autoSave() {
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(saveNow, 800);
-}
-
-function restoreData() {
-  document.getElementById('restore-modal').classList.remove('visible');
-  if (!pendingRestore) return;
-  var d = pendingRestore;
-  // Meta fields
-  document.getElementById('meta-name').value    = d.meta.name    || '';
-  document.getElementById('meta-quarter').value = d.meta.quarter || '';
-  document.getElementById('meta-year').value    = d.meta.year    || '';
-  // Fill entry rows that already exist (built during page init)
-  (d.entries || []).forEach(function(e) {
-    var row = document.getElementById(e.id);
-    if (!row) return;
-    var descEl  = row.querySelector('select, input[type="text"]');
-    var payeeEl = row.querySelector('input[id$="-payee"]');
-    var dateEl  = row.querySelector('input[type="date"]');
-    var amtEl   = row.querySelector('input[type="number"]');
-    if (descEl)  descEl.value  = e.desc   || '';
-    if (payeeEl) payeeEl.value = e.payee  || '';
-    if (dateEl)  dateEl.value  = e.date   || '';
-    if (amtEl)   amtEl.value   = e.amount || '';
-  });
-  calcTotals();
-}
-
-function discardSaved() {
-  document.getElementById('restore-modal').classList.remove('visible');
-  localStorage.removeItem(SAVE_KEY);
-}
-
-function clearSaved() {
-  if (!confirm('Remove saved data from this browser? Your current entries will not be cleared.')) return;
-  localStorage.removeItem(SAVE_KEY);
-  var ind = document.getElementById('save-indicator');
-  ind.textContent = '✓ Cleared';
-  ind.classList.add('visible');
-  setTimeout(function() { ind.classList.remove('visible'); ind.textContent = '✓ Saved'; }, 2000);
-}
-
-function checkForSavedData() {
-  try {
-    var raw = localStorage.getItem(SAVE_KEY);
-    if (!raw) return;
-    var d = JSON.parse(raw);
-    var hasContent = (d.meta && (d.meta.name || d.meta.quarter || d.meta.year)) ||
-      (d.entries && d.entries.some(function(e){ return e.desc || e.payee || e.date || e.amount; }));
-    if (hasContent) {
-      pendingRestore = d;
-      document.getElementById('restore-modal').classList.add('visible');
-    }
-  } catch(e) {}
-}
-
-
-const homeDescriptions = ['Rent','Mortgage interest','Repairs and maintenance','Water rates','Council tax','Service charges','Home insurance','Gas / Electricity','Cleaning','Other home costs'];
-const travelDescriptions = ['TFL','Rail','Taxis','Accommodation','Subsistence','Flights','Buses','Other travel'];
-const motorDescriptions = ['Petrol','Road tax','Insurance','Repairs/Servicing/MOT','Breakdown cover','Cleaning/car washing','Other (e.g. Vehicle Tracker)','Parking','Congestion charges','Lease'];
-const phoneDescriptions = ['Mobile phone','Home phone / internet','Other Wifi/ SIM costs'];
-
-const otherSections = [
-  { id: 'insurance', label: 'Business Insurance', code: 304 },
-  { id: 'literature', label: 'Professional Literature', code: 305 },
-  { id: 'subscriptions', label: 'Subscriptions', code: 306 },
-  { id: 'courses', label: 'Courses and Conferences', code: 307 },
-  { id: 'laundry', label: 'Laundry and Protecting Work Clothing', code: 308 },
-  { id: 'advertising', label: 'Advertising and Marketing', code: 309 },
-  { id: 'contractor', label: 'Contractor/Secretarial Assistance', code: 310 },
-  { id: 'accountancy', label: 'Accountancy and Bookkeeping', code: 311 },
-  { id: 'printing', label: 'Printing, Postage and Stationery', code: 312 },
-  { id: 'computer', label: 'Computer Expenses', code: 313 },
-  { id: 'sundry', label: 'Sundry Expenses', code: 314 },
-  { id: 'capital', label: 'Capital Expenditure', code: 315 },
-  { id: 'bank', label: 'Bank Charges', code: 316 },
-  { id: 'loan', label: 'Loan', code: 850 },
-  { id: 'charity', label: 'Charitable Donations', code: 900 },
+var allSections = [
+  {id:'revenue',      label:'Revenue',                                     code:100, descs:null},
+  {id:'chambers',     label:'Direct costs',                                code:200, descs:null},
+  {id:'home_office',  label:'Use of Home',                                 code:300, descs:homeDescs},
+  {id:'travel_natl',  label:'Travelling Expenses',                         code:301, descs:travelDescs},
+  {id:'motor',        label:'Motor Expenses',                              code:302, descs:motorDescs,  bizUseConditional:true},
+  {id:'tel_int',      label:'Telephone and Internet',                      code:303, descs:phoneDescs,   bizUse:true},
+  {id:'pi_ins',       label:'Business Insurance',                          code:304, descs:null},
+  {id:'pro_lit_hard', label:'Professional Literature',                     code:305, descs:null},
+  {id:'pro_subs',     label:'Subscriptions',                               code:306, descs:null},
+  {id:'cpd',          label:'Courses and Conferences',                     code:307, descs:null},
+  {id:'laundry',      label:'Laundry and Protective Work Clothing',        code:308, descs:null},
+  {id:'advertising',  label:'Advertising and Marketing',                   code:309, descs:null},
+  {id:'secretarial',  label:'Contractor/Secretarial Assistance',           code:310, descs:null},
+  {id:'accountancy',  label:'Accounting and Bookkeeping',                  code:311, descs:null},
+  {id:'printing',     label:'Printing, Postage and Stationery',            code:312, descs:null},
+  {id:'it_soft',      label:'Computer Expenses',                           code:313, descs:null},
+  {id:'general',      label:'Sundry Expenses',                             code:314, descs:null},
+  {id:'bank_fees',    label:'Bank Charges',                                code:316, descs:null},
+  {id:'hardware',     label:'Capital Expenditure',                         code:315, descs:null,        bizUse:true},
+  {id:'interest',     label:'Loan',                                        code:850, descs:null},
+  {id:'charitable',   label:'Charitable Donations',                        code:900, descs:null},
 ];
 
-function addEntry(sectionId, category, code, defaultDesc, descs) {
-  const container = document.getElementById(sectionId + '-entries');
+// Fixed tax type mapping: desc key -> default tax type value
+// taxTypeMap: desc or _sectionId -> { options: [...], default: '...' }
+// options: array of [value, label] pairs available in dropdown
+// default: which to pre-select
+var TAX_ZERO    = ['Zero Rated Expenses', 'Zero Rated'];
+var TAX_20      = ['20% (VAT on Expenses)', '20% VAT'];
+var TAX_5       = ['5% (VAT on Expenses)', '5% VAT'];
+var TAX_EXEMPT  = ['Exempt (VAT)', 'Exempt'];
+var TAX_NOVAT   = ['No VAT', 'No VAT'];
+var TAX_DEFAULT_OPTIONS = [TAX_NOVAT, TAX_ZERO, TAX_20, TAX_5, TAX_EXEMPT]; // standard options, No VAT default
+
+var taxTypeMap = {
+  // Use of Home as office subcategories
+  'Rent':                    { options: [TAX_NOVAT],                           def: 'No VAT' },
+  'Mortgage interest':       { options: [TAX_NOVAT],                           def: 'No VAT' },
+  'Repairs and maintenance': { options: [TAX_NOVAT, TAX_20],                   def: 'No VAT' },
+  'Water rates':             { options: [TAX_NOVAT],                           def: 'No VAT' },
+  'Council tax':             { options: [TAX_NOVAT],                           def: 'No VAT' },
+  'Service charges':         { options: [TAX_NOVAT, TAX_20],                   def: 'No VAT' },
+  'Home insurance':          { options: [TAX_NOVAT, TAX_EXEMPT],               def: 'No VAT' },
+  'Gas / Electricity':       { options: [TAX_NOVAT, TAX_5],                    def: 'No VAT' },
+  'Cleaning':                { options: [TAX_NOVAT, TAX_20],                   def: 'No VAT' },
+  'Other home costs':        { options: [TAX_NOVAT, TAX_20, TAX_ZERO],         def: 'No VAT' },
+  // Travel subcategories
+  'TFL':                 { options: [TAX_NOVAT, TAX_ZERO],                     def: 'No VAT' },
+  'Rail':                { options: [TAX_NOVAT, TAX_ZERO],                     def: 'No VAT' },
+  'Flights':             { options: [TAX_NOVAT, TAX_ZERO],                     def: 'No VAT' },
+  'Buses':               { options: [TAX_NOVAT, TAX_ZERO],                     def: 'No VAT' },
+  // Motor subcategories
+  'Road tax':            { options: [TAX_NOVAT, TAX_EXEMPT],                   def: 'No VAT' },
+  // Section-level fixed types (no subcategories)
+  '_pi_ins':             { options: [TAX_NOVAT, TAX_EXEMPT],                   def: 'No VAT' },
+  '_pro_lit_hard':       { options: [TAX_NOVAT, TAX_ZERO],                     def: 'No VAT' },
+  '_bank_fees':          { options: [TAX_NOVAT, TAX_EXEMPT],                   def: 'No VAT' },
+  '_interest':           { options: [TAX_NOVAT, TAX_EXEMPT],                   def: 'No VAT' },
+  '_entertaining':       { options: [TAX_NOVAT],                               def: 'No VAT' },
+  '_charitable':         { options: [TAX_NOVAT],                               def: 'No VAT' },
+  '_pro_subs':           { options: [TAX_NOVAT, TAX_EXEMPT, TAX_20],           def: 'No VAT' },
+  '_hardware':           { options: [TAX_NOVAT, TAX_20, TAX_ZERO],             def: 'No VAT' },
+};
+
+function getSectionBizPct(sectionId) {
+  var el = document.getElementById(sectionId + '-biz-pct');
+  if (!el) return 100;
+  var v = parseFloat(el.value);
+  return (isNaN(v) || v < 0 || v > 100) ? 100 : v;
+}
+
+function updateAdjusted(row) {
+  var adjEl = row.querySelector('.adjusted-amount');
+  if (!adjEl) return;
+  var amtEl = row.querySelector('input[type="number"]:not(.biz-pct-input)');
+  var pctEl = row.querySelector('.biz-pct-input');
+  var gross = parseFloat(amtEl ? amtEl.value : '') || 0;
+  var pct   = parseFloat(pctEl ? pctEl.value : 100);
+  if (isNaN(pct) || pct < 0 || pct > 100) pct = 100;
+  var adj = gross * (pct / 100);
+  adjEl.textContent = gross === 0 ? '—' : '£' + adj.toFixed(2);
+}
+
+function addEntry(sectionId, category, code, descs, bizUse, bizUseConditional) {
+  var container = document.getElementById(sectionId + '-entries');
+  if (!container) return;
   if (!entryCount[sectionId]) entryCount[sectionId] = 0;
-  const idx = ++entryCount[sectionId];
-  const rowId = sectionId + '-' + idx;
+  var idx = ++entryCount[sectionId];
+  var rowId = sectionId + '-' + idx;
 
-  const descField = descs && descs.length
-    ? `<select id="${rowId}-desc" onchange="calcTotals()">
-        <option value="">— Select type —</option>
-        ${descs.map(d => `<option value="${d}"${d===defaultDesc?' selected':''}>${d}</option>`).join('')}
-       </select>`
-    : `<input type="text" id="${rowId}-desc" placeholder="Description" onchange="calcTotals()">`;
-
-  const row = document.createElement('div');
+  var row = document.createElement('div');
   row.className = 'entry-row';
   row.id = rowId;
   row.dataset.category = category;
   row.dataset.code = code;
-  row.dataset.isRevenue = category === 'Revenue' ? '1' : '0';
-  row.innerHTML = `
-    <div class="entry-row-label"><span class="dot"></span> Entry ${idx} &nbsp;·&nbsp; Code ${code}</div>
-    <div class="fields-grid wide">
-      <div class="field">
-        <label>Description</label>
-        ${descField}
-      </div>
-      <div class="field">
-        <label>Payee</label>
-        <input type="text" id="${rowId}-payee" placeholder="Payee name" oninput="calcTotals()">
-      </div>
-      <div class="field">
-        <label>Date <span class="req">*</span></label>
-        <input type="date" id="${rowId}-date" oninput="calcTotals()">
-      </div>
-      <div class="field">
-        <label>Amount <span class="req">*</span></label>
-        <div class="amount-wrap">
-          <input type="number" id="${rowId}-amount" step="0.01" min="0" placeholder="0.00" oninput="calcTotals()">
-        </div>
-      </div>
-    </div>`;
+  if (bizUse) row.dataset.bizUse = '1';
+  if (bizUseConditional) row.dataset.bizUseConditional = '1';
+
+  var labelEl = document.createElement('div');
+  labelEl.className = 'entry-row-label';
+  labelEl.innerHTML = '<span class="dot"></span> Entry ' + idx + ' &nbsp;&middot;&nbsp; Code ' + code;
+
+  var grid = document.createElement('div');
+  grid.className = 'fields-grid';
+  if (bizUse || bizUseConditional) grid.classList.add('has-biz');
+
+  var isHomeOffice = false;
+
+  var descField;
+  if (descs && descs.length) {
+    var sel = '<select onchange="calcTotals()"><option value="">— Select type —</option>';
+    descs.forEach(function(d) { sel += '<option value="' + d + '">' + d + '</option>'; });
+    sel += '</select>';
+    descField = '<div class="field"><label>Description</label>' + sel + '</div>';
+  } else {
+    descField = '<div class="field"><label>Description</label><input type="text" placeholder="Description" oninput="calcTotals()"></div>';
+  }
+
+  var hasBiz = bizUse || bizUseConditional;
+  var sectionPct = bizUse ? getSectionBizPct(sectionId) : 100;
+
+  var bizFieldsHtml = '';
+  if (bizUse) {
+    bizFieldsHtml =
+      '<div class="field biz-pct-field"><label>Biz Use %</label><input type="number" class="biz-pct-input" min="0" max="100" step="1" value="' + sectionPct + '" oninput="calcTotals()"></div>' +
+      '<div class="field adjusted-field"><label>Adjusted</label><span class="adjusted-amount">—</span></div>';
+  } else if (bizUseConditional) {
+    bizFieldsHtml =
+      '<div class="field biz-pct-field biz-hidden"><label>Biz Use %</label><input type="number" class="biz-pct-input" min="0" max="100" step="1" value="100" oninput="calcTotals()"></div>' +
+      '<div class="field adjusted-field biz-hidden"><label>Adjusted</label><span class="adjusted-amount">—</span></div>';
+  }
+
+  var amountOninput = 'calcTotals()';
+
+  grid.innerHTML =
+    descField +
+    '<div class="field"><label>Payee</label><input type="text" placeholder="Payee name" oninput="calcTotals()"></div>' +
+    '<div class="field"><label>Tax Type <span class="req">*</span></label><select class="tax-type-select"></select></div>' +
+    '<div class="field"><label>Date <span class="req">*</span></label><input type="date" oninput="calcTotals()"></div>' +
+    '<div class="field"><label>Amount <span class="req">*</span> <span class="tooltip-wrap">&#9432;<span class="tooltip-box">Enter the gross amount,<br>including VAT</span></span></label><div class="amount-wrap"><input type="number" step="0.01" placeholder="0.00" oninput="' + amountOninput + '"></div></div>' +
+    bizFieldsHtml +
+    '<div class="field field-duplicate"><label>\u00a0</label><button class="btn-duplicate" data-action="duplicate">\u2463 Duplicate</button></div>' +
+    '<div class="field field-duplicate"><label>\u00a0</label><button class="btn-remove" data-action="remove">\u2715 Remove</button></div>';
+
+  // Attach button events
+  grid.querySelector('[data-action="duplicate"]').addEventListener('click', function() { duplicateEntry(rowId); });
+  grid.querySelector('[data-action="remove"]').addEventListener('click', function() { removeEntry(rowId); });
+
+  // Build and set tax type options based on description or section
+  function applyTaxType() {
+    var taxSel = grid.querySelector('.tax-type-select');
+    if (!taxSel) return;
+    var descEl = grid.querySelector('select:not(.tax-type-select)') || grid.querySelector('input[type="text"]');
+    var descVal = descEl ? descEl.value : '';
+    var mapEntry = taxTypeMap[descVal] || taxTypeMap['_' + sectionId] || null;
+    var options = mapEntry ? mapEntry.options : TAX_DEFAULT_OPTIONS;
+    var defVal  = mapEntry ? mapEntry.def : 'No VAT';
+    taxSel.innerHTML = '';
+    options.forEach(function(opt) {
+      var el = document.createElement('option');
+      el.value = opt[0];
+      el.textContent = opt[1];
+      taxSel.appendChild(el);
+    });
+    taxSel.value = defVal;
+  }
+
+  // For conditional biz use (motor): show/hide biz fields based on selected description
+  function applyMotorBizVisibility() {
+    if (!bizUseConditional) return;
+    var descEl = grid.querySelector('select:not(.tax-type-select)');
+    var descVal = descEl ? descEl.value : '';
+    var needsBiz = motorBizDescs.indexOf(descVal) !== -1;
+    var pctField = grid.querySelector('.biz-pct-field');
+    var adjField = grid.querySelector('.adjusted-field');
+    if (pctField) pctField.classList.toggle('biz-hidden', !needsBiz);
+    if (adjField) adjField.classList.toggle('biz-hidden', !needsBiz);
+    row.dataset.bizUse = needsBiz ? '1' : '';
+    if (needsBiz) updateAdjusted(row);
+    calcTotals();
+  }
+
+  applyTaxType();
+  var descTrigger = grid.querySelector('select:not(.tax-type-select)');
+  if (descTrigger) {
+    descTrigger.addEventListener('change', applyTaxType);
+    if (bizUseConditional) descTrigger.addEventListener('change', applyMotorBizVisibility);
+  }
+  row.appendChild(labelEl);
+  row.appendChild(grid);
   container.appendChild(row);
+  if (bizUse) updateAdjusted(row);
+  calcTotals();
+}
+
+function duplicateEntry(rowId) {
+  var sourceRow = document.getElementById(rowId);
+  if (!sourceRow) return;
+
+  // Find which section this row belongs to
+  var container = sourceRow.parentElement;
+  var sectionId = container.id.replace('-entries', '');
+
+  // Find the section config
+  var sectionConfig = allSections.find(function(s) { return s.id === sectionId; });
+  if (!sectionConfig) return;
+
+  // Capture tax type value before addEntry resets it
+  var sourceTaxTypeEl = sourceRow.querySelector('.tax-type-select');
+  var sourceTaxTypeVal = sourceTaxTypeEl ? sourceTaxTypeEl.value : null;
+
+  // Add a new blank entry
+  addEntry(sectionId, sectionConfig.label, sectionConfig.code, sectionConfig.descs, sectionConfig.bizUse, sectionConfig.bizUseConditional);
+
+  // Get the new row (last in container)
+  var newRow = container.lastElementChild;
+
+  // Step 1: set the description first so applyTaxType builds the correct options
+  var sourceDescEl = sourceRow.querySelector('select:not(.tax-type-select)') || sourceRow.querySelector('input[type="text"]');
+  var newDescEl    = newRow.querySelector('select:not(.tax-type-select)')    || newRow.querySelector('input[type="text"]');
+  if (sourceDescEl && newDescEl) {
+    newDescEl.value = sourceDescEl.value;
+    // Fire change so applyTaxType rebuilds tax options for this description
+    newDescEl.dispatchEvent(new Event('change'));
+  }
+
+  // Step 2: now copy all remaining values
+  var sourceInputs = sourceRow.querySelectorAll('input, select');
+  var newInputs    = newRow.querySelectorAll('input, select');
+  sourceInputs.forEach(function(el, i) {
+    if (newInputs[i]) newInputs[i].value = el.value;
+  });
+
+  // Step 3: re-apply tax type explicitly — options are now correct for this description
+  var newTaxTypeEl = newRow.querySelector('.tax-type-select');
+  if (newTaxTypeEl && sourceTaxTypeVal) newTaxTypeEl.value = sourceTaxTypeVal;
+
+  // For motor conditional rows, re-evaluate biz visibility based on copied description
+  if (sectionConfig.bizUseConditional) {
+    var descEl = newRow.querySelector('select:not(.tax-type-select)');
+    var descVal = descEl ? descEl.value : '';
+    var needsBiz = motorBizDescs.indexOf(descVal) !== -1;
+    var pctField = newRow.querySelector('.biz-pct-field');
+    var adjField = newRow.querySelector('.adjusted-field');
+    if (pctField) pctField.classList.toggle('biz-hidden', !needsBiz);
+    if (adjField) adjField.classList.toggle('biz-hidden', !needsBiz);
+    newRow.dataset.bizUse = needsBiz ? '1' : '';
+  }
+
+  // Recalculate adjusted amount if this row has biz use
+  if (newRow.dataset.bizUse) updateAdjusted(newRow);
+
+  // Insert the new row right after the source row
+  container.insertBefore(newRow, sourceRow.nextSibling);
+
+  calcTotals();
+}
+
+function removeEntry(rowId) {
+  var row = document.getElementById(rowId);
+  if (!row) return;
+  var container = row.parentElement;
+  if (container.children.length <= 1) {
+    alert('At least one entry must remain in each section.');
+    return;
+  }
+  row.remove();
   calcTotals();
 }
 
 
-function calcTotals() {
-  let revenue = 0, expenses = 0, filled = 0, total = 0;
-  document.querySelectorAll('.entry-row').forEach(row => {
-    total++;
-    const amtEl = row.querySelector('input[type="number"]');
-    const dateEl = row.querySelector('input[type="date"]');
-    const amt = parseFloat(amtEl ? amtEl.value : 0) || 0;
-    if (amt > 0 || (dateEl && dateEl.value)) filled++;
-    if (row.dataset.isRevenue === '1') revenue += amt;
-    else expenses += amt;
+function applySectionBizPct(sectionId) {
+  var pct = getSectionBizPct(sectionId);
+  var container = document.getElementById(sectionId + '-entries');
+  if (!container) return;
+  container.querySelectorAll('.biz-pct-input').forEach(function(el) {
+    el.value = pct;
   });
-
-  document.getElementById('total-revenue').textContent = '\u00a3' + revenue.toFixed(2);
-  document.getElementById('total-expenses').textContent = '\u00a3' + expenses.toFixed(2);
-  const net = revenue - expenses;
-  const netEl = document.getElementById('total-net');
-  netEl.textContent = (net < 0 ? '-\u00a3' : '\u00a3') + Math.abs(net).toFixed(2);
-  netEl.style.color = net < 0 ? '#e07070' : '#f0c080';
-
-  const pct = total ? Math.round((filled / total) * 100) : 0;
-  document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-label').textContent = filled + ' of ' + total + ' entries filled';
-  autoSave();
+  calcTotals();
 }
 
-function exportCSV() {
-  // --- Validation ---
+function calcTotals() {
+  var expenses = 0, filled = 0, total = 0;
+  document.querySelectorAll('.entry-row').forEach(function(row) {
+    total++;
+    var amtEl = row.querySelector('input[type="number"]:not(.biz-pct-input)');
+    var dateEl = row.querySelector('input[type="date"]');
+    var gross = parseFloat(amtEl ? amtEl.value : 0) || 0;
+    if (gross !== 0 || (dateEl && dateEl.value)) filled++;
+
+    // If biz use row, apply percentage adjustment
+    if (row.dataset.bizUse) {
+      updateAdjusted(row);
+      var pctEl = row.querySelector('.biz-pct-input');
+      var pct = parseFloat(pctEl ? pctEl.value : 100);
+      if (isNaN(pct) || pct < 0 || pct > 100) pct = 100;
+      expenses += Math.abs(gross) * (pct / 100);
+    } else {
+      expenses += Math.abs(gross);
+    }
+  });
+  document.getElementById('total-expenses').textContent = '\u00a3' + expenses.toFixed(2);
+  var netEl = document.getElementById('total-net');
+  netEl.textContent = '-\u00a3' + expenses.toFixed(2);
+  var pct = total ? Math.round((filled / total) * 100) : 0;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = filled + ' of ' + total + ' entries filled';
+  debouncedSave();
+}
+
+// ── Auto-save to localStorage ──────────────────────────────────────────────
+
+var saveTimer;
+function debouncedSave() {
+  clearTimeout(saveTimer);
+  setAutosaveStatus('saving');
+  saveTimer = setTimeout(saveState, 800);
+}
+
+function setAutosaveStatus(state) {
+  var ind = document.getElementById('autosave-indicator');
+  var txt = document.getElementById('autosave-text');
+  if (!ind) return;
+  ind.className = 'autosave-dot' in ind ? '' : ''; // reset
+  ind.id = 'autosave-indicator';
+  if (state === 'saving') {
+    ind.classList.add('saving');
+    txt.textContent = 'Saving…';
+  } else if (state === 'saved') {
+    ind.classList.add('saved');
+    var now = new Date();
+    txt.textContent = 'Saved ' + now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  } else {
+    txt.textContent = 'Draft saved';
+  }
+}
+
+function saveState() {
+  try {
+    var state = {
+      meta: {
+        name:    document.getElementById('meta-name').value,
+        quarter: document.getElementById('meta-quarter').value,
+        year:    document.getElementById('meta-year').value
+      },
+      sections: {}
+    };
+
+    allSections.forEach(function(s) {
+      var container = document.getElementById(s.id + '-entries');
+      if (!container) return;
+      var entries = [];
+      Array.from(container.querySelectorAll('.entry-row')).forEach(function(row) {
+        var fields = {};
+        row.querySelectorAll('input, select').forEach(function(el, i) {
+          fields[i] = el.value;
+        });
+        entries.push({ fields: fields, extraCount: container.querySelectorAll('.entry-row').length });
+      });
+      state.sections[s.id] = entries;
+    });
+
+    localStorage.setItem('accountsFiguresDraft', JSON.stringify(state));
+    setAutosaveStatus('saved');
+  } catch(e) {
+    console.warn('Auto-save failed:', e);
+  }
+}
+
+function loadState() {
+  try {
+    var raw = localStorage.getItem('accountsFiguresDraft');
+    if (!raw) return false;
+    var state = JSON.parse(raw);
+
+    // Restore meta fields
+    if (state.meta) {
+      document.getElementById('meta-name').value    = state.meta.name    || '';
+      document.getElementById('meta-quarter').value = state.meta.quarter || '';
+      document.getElementById('meta-year').value    = state.meta.year    || '';
+    }
+
+    // Restore section entries
+    if (state.sections) {
+      allSections.forEach(function(s) {
+        var savedEntries = state.sections[s.id];
+        if (!savedEntries || !savedEntries.length) return;
+
+        var container = document.getElementById(s.id + '-entries');
+        if (!container) return;
+
+        // Remove the default blank entry that was auto-created
+        while (container.firstChild) container.removeChild(container.firstChild);
+        entryCount[s.id] = 0;
+
+        savedEntries.forEach(function(entry) {
+          addEntry(s.id, s.label, s.code, s.descs, s.bizUse, s.bizUseConditional);
+          var row = container.lastElementChild;
+          var inputs = row.querySelectorAll('input, select');
+          inputs.forEach(function(el, i) {
+            if (entry.fields[i] !== undefined) el.value = entry.fields[i];
+          });
+          if (s.bizUseConditional) {
+            var descSel = row.querySelector('select:not(.tax-type-select)');
+            if (descSel) {
+              var descVal = descSel.value;
+              var needsBiz = motorBizDescs.indexOf(descVal) !== -1;
+              var pctField = row.querySelector('.biz-pct-field');
+              var adjField = row.querySelector('.adjusted-field');
+              if (pctField) pctField.classList.toggle('biz-hidden', !needsBiz);
+              if (adjField) adjField.classList.toggle('biz-hidden', !needsBiz);
+              row.dataset.bizUse = needsBiz ? '1' : '';
+              if (needsBiz) updateAdjusted(row);
+            }
+          }
+        });
+      });
+    }
+
+    setAutosaveStatus('saved');
+    return true;
+  } catch(e) {
+    console.warn('Draft restore failed:', e);
+    return false;
+  }
+}
+
+function submitForm() {
   var errors = [];
   var metaName = document.getElementById('meta-name').value.trim();
   var metaQuarter = document.getElementById('meta-quarter').value;
   var metaYear = document.getElementById('meta-year').value.trim();
 
   if (!metaName) errors.push('Full Name is required');
-  if (!metaQuarter) errors.push('Period must be selected');
+  if (!metaQuarter) errors.push('Quarter must be selected');
   if (!metaYear) errors.push('Year is required');
 
   var missingDates = [];
   document.querySelectorAll('.entry-row').forEach(function(row) {
     var amtEl = row.querySelector('input[type="number"]');
     var dateEl = row.querySelector('input[type="date"]');
-    var amtRaw = amtEl ? parseFloat(amtEl.value) : NaN;
-    var date = dateEl ? dateEl.value : '';
-    if (!isNaN(amtRaw) && amtEl.value !== '' && !date) {
-      var category = row.dataset.category;
-      var entryLabel = row.querySelector('.entry-row-label') ? row.querySelector('.entry-row-label').textContent.trim() : '';
-      missingDates.push(category + ' — ' + entryLabel);
+    if (amtEl && amtEl.value !== '' && dateEl && !dateEl.value) {
+      missingDates.push(row.dataset.category);
     }
   });
-
   if (missingDates.length > 0) {
-    errors.push('Date is required for entries with an amount:\n  • ' + missingDates.join('\n  • '));
+    errors.push('Date required for: ' + missingDates.join(', '));
   }
-
   if (errors.length > 0) {
-    alert('Please fix the following before downloading:\n\n• ' + errors.join('\n• '));
+    alert('Please fix the following:\n\n\u2022 ' + errors.join('\n\u2022 '));
     return;
   }
 
-  // --- Build CSV ---
-  const rows = [['ExpenseCategory','Payee','Reference','Description','Date','Amount','AccountCode','TaxType']];
-  let hasData = false;
+  var rows = [['ExpenseCategory','Payee','Reference','Description','Date','Amount','AccountCode','TaxType']];
+  var hasData = false;
 
-  document.querySelectorAll('.entry-row').forEach(row => {
-    const descEl = row.querySelector('select, input[type="text"]');
-    const payeeEl = row.querySelector('input[id$="-payee"]');
-    const dateEl = row.querySelector('input[type="date"]');
-    const amtEl = row.querySelector('input[type="number"]');
-    const amtRaw = amtEl ? parseFloat(amtEl.value) : '';
-    const date = dateEl ? dateEl.value : '';
-    if ((!amtRaw && amtRaw !== 0) && !date) return;
+  document.querySelectorAll('.entry-row').forEach(function(row) {
+    // Description: prefer the non-tax-type select, otherwise the first text input
+    var descEl = row.querySelector('select:not(.tax-type-select)') || row.querySelector('input[type="text"]');
+    var inputs = row.querySelectorAll('input[type="text"]');
+    var dateEl = row.querySelector('input[type="date"]');
+    var amtEl = row.querySelector('input[type="number"]:not(.biz-pct-input)');
+    var amtRaw = amtEl ? parseFloat(amtEl.value) : NaN;
+    var date = dateEl ? dateEl.value : '';
+    if (isNaN(amtRaw) && !date) return;
     hasData = true;
-    var isRevenue = row.dataset.isRevenue === '1';
+
+    // Business use adjustment
     var exportAmt = '';
-    if (amtRaw !== '' && !isNaN(amtRaw)) {
-      if (isRevenue) {
-        exportAmt = amtRaw.toFixed(2);
+    var descValue = descEl ? descEl.value : '';
+    if (row.dataset.bizUse) {
+      var pctEl = row.querySelector('.biz-pct-input');
+      var pct = parseFloat(pctEl ? pctEl.value : 100);
+      if (isNaN(pct) || pct < 0 || pct > 100) pct = 100;
+      if (!isNaN(amtRaw) && amtEl.value !== '') {
+        var adjAmt = Math.abs(amtRaw) * (pct / 100);
+        exportAmt = (-adjAmt).toFixed(2);
+      }
+      // Annotate description
+      if (descValue) {
+        descValue = descValue + ' @ ' + (parseFloat(pctEl ? pctEl.value : 100) || 100) + '% business use';
       } else {
-        exportAmt = amtRaw > 0 ? (-Math.abs(amtRaw)).toFixed(2) : amtRaw.toFixed(2);
+        descValue = (parseFloat(pctEl ? pctEl.value : 100) || 100) + '% business use';
+      }
+    } else {
+      if (!isNaN(amtRaw) && amtEl.value !== '') {
+        // Revenue (code 100) exports as positive; all others as negative
+        if (row.closest('#revenue-entries')) {
+          exportAmt = Math.abs(amtRaw).toFixed(2);
+        } else {
+          exportAmt = amtRaw > 0 ? (-Math.abs(amtRaw)).toFixed(2) : amtRaw.toFixed(2);
+        }
       }
     }
+
+    var selects = row.querySelectorAll('select');
+    var taxTypeEl = selects[selects.length - 1];
+    var taxTypeRaw = taxTypeEl ? taxTypeEl.value : 'Zero Rated Expenses';
+    var taxTypeExportMap = {
+      'Exempt (VAT)':           'Exempt Expenses',
+      '5% (VAT on Expenses)':   '5% (VAT on Expenses)',
+      'No VAT':                 'No VAT',
+      'Zero Rated Expenses':    'Zero Rated Expenses',
+      '20% (VAT on Expenses)':  '20% (VAT on Expenses)',
+    };
+    var taxType = taxTypeExportMap[taxTypeRaw] || taxTypeRaw;
     rows.push([
       row.dataset.category,
-      payeeEl ? payeeEl.value : '',
+      inputs[0] ? inputs[0].value : '',
       '',
-      descEl ? descEl.value : '',
-      date,
-      exportAmt,
+      descValue,
+      date, exportAmt,
       row.dataset.code,
-      'No VAT'
+      taxType
     ]);
   });
 
-  if (!hasData) { alert('Please fill in at least one entry before exporting.'); return; }
+  if (!hasData) { alert('Please fill in at least one entry before submitting.'); return; }
 
-  var metaNameClean = (document.getElementById('meta-name').value || 'Unknown').trim().replace(/\s+/g, '_');
-  var quarterClean = (document.getElementById('meta-quarter').value || 'QE').replace(/\s+/g, '_');
-  var yearVal = document.getElementById('meta-year').value || new Date().getFullYear();
-  var filename = metaNameClean + '_' + quarterClean + '_' + yearVal + '.csv';
+  var filename = metaName.replace(/\s+/g,'_') + '_' + metaQuarter.replace(/\s+/g,'_') + '_' + metaYear + '.csv';
+  var csv = rows.map(function(r) { return r.map(function(c) { return '"' + String(c).replace(/"/g,'""') + '"'; }).join(','); }).join('\n');
 
-  const csv = rows.map(r => r.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
 
-  var WEBHOOK_URL = 'https://hook.eu1.make.com/zwp9hym8vcgdzshikg434ifcznvliuhq';
+  // Send CSV to Make.com webhook
+  var webhookUrl = 'https://hook.eu1.make.com/zwp9hym8vcgdzshikg434ifcznvliuhq';
+  var formData = new FormData();
+  formData.append('file', blob, filename);
+  formData.append('name', metaName);
+  formData.append('quarter', metaQuarter);
+  formData.append('year', metaYear);
+  formData.append('filename', filename);
 
-  if (!WEBHOOK_URL || WEBHOOK_URL === '') {
-    alert('Submission error: No webhook URL configured. Please contact the form administrator.');
-    return;
-  }
-
-  var submitBtn = document.querySelector('.btn-primary');
-  submitBtn.textContent = 'Sending…';
-  submitBtn.disabled = true;
-
-  fetch(WEBHOOK_URL, {
+  fetch(webhookUrl, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      filename: filename,
-      data: csv,
-      name: document.getElementById('meta-name').value.trim(),
-      quarter: document.getElementById('meta-quarter').value,
-      year: document.getElementById('meta-year').value,
-      submittedAt: new Date().toISOString()
-    })
-  })
-  .then(function(res) {
-    if (res.ok || res.status === 200 || res.status === 204) {
-      // Trigger CSV download as back-up
-      var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      var link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(link.href);
-
-      var banner = document.getElementById('success-banner');
-      banner.style.display = 'flex';
-      setTimeout(function() { banner.style.display = 'none'; }, 12000);
-      submitBtn.textContent = 'Submitted ✓';
-      submitBtn.style.background = 'var(--green)';
-      submitBtn.style.borderColor = 'var(--green)';
-      document.getElementById('backup-note').style.display = 'block';
-    } else {
-      throw new Error('Server responded with status ' + res.status);
-    }
-  })
-  .catch(function(err) {
-    alert('Submission failed. Please try again or contact the form administrator.\n\nError: ' + err.message);
-    submitBtn.textContent = 'Submit';
-    submitBtn.disabled = false;
+    body: formData
+  }).catch(function(err) {
+    console.warn('Webhook error:', err);
   });
+
+  var banner = document.getElementById('success-banner');
+  banner.style.display = 'flex';
+  setTimeout(function() { banner.style.display = 'none'; }, 6000);
 }
 
 function clearAll() {
-  if (!confirm('Clear all entered data?')) return;
-  document.querySelectorAll('.entry-row input, .entry-row select').forEach(function(el) { el.value = ''; });
+  if (!confirm('Clear all entered data? This will also clear your saved draft.')) return;
+
+  // Reset each section to a single blank entry
+  allSections.forEach(function(s) {
+    var container = document.getElementById(s.id + '-entries');
+    if (!container) return;
+    // Remove all rows
+    while (container.firstChild) container.removeChild(container.firstChild);
+    entryCount[s.id] = 0;
+    // Add one fresh blank entry
+    addEntry(s.id, s.label, s.code, s.descs, s.bizUse, s.bizUseConditional);
+  });
+
+  // Clear meta fields
+  document.getElementById('meta-name').value = '';
+  document.getElementById('meta-quarter').value = '';
+  document.getElementById('meta-year').value = '';
+
+  try { localStorage.removeItem('accountsFiguresDraft'); } catch(e) {}
+  var txt = document.getElementById('autosave-text');
+  if (txt) txt.textContent = 'No draft saved';
   calcTotals();
 }
 
-// Build other sections HTML
-const otherEl = document.getElementById('other-sections');
-otherSections.forEach(function(s) {
-  const section = document.createElement('div');
+// Build all sections on page load, then restore any saved draft
+var sectionTips = {
+  'laundry': 'Did you know? For Suits: you can include the expense and reclaim VAT to be included in the VAT return. However, for your Year End Accounts and Tax return, the cost of the Suit is not an allowable expense.'
+};
+
+var container = document.getElementById('all-sections');
+allSections.forEach(function(s) {
+  var section = document.createElement('div');
   section.className = 'section';
-  section.innerHTML =
-    '<div class="section-header">' +
-      '<span class="section-code">' + s.code + '</span>' +
-      '<span class="section-title">' + s.label + '</span>' +
-      '<div class="section-line"></div>' +
-    '</div>' +
-    '<div id="' + s.id + '-entries"></div>' +
-    '<button class="btn btn-secondary" onclick="addEntry(\'' + s.id + '\', \'' + s.label + '\', ' + s.code + ', \'\')">+ Add ' + s.label + ' Entry</button>';
-  otherEl.appendChild(section);
-  addEntry(s.id, s.label, s.code, '');
+
+  var header = document.createElement('div');
+  header.className = 'section-header';
+  var tipHtml = sectionTips[s.id]
+    ? ' <span class="tooltip-wrap section-tip">&#9432;<span class="tooltip-box section-tooltip-box">' + sectionTips[s.id] + '</span></span>'
+    : '';
+  header.innerHTML = '<span class="section-code">' + s.code + '</span><span class="section-title">' + s.label + tipHtml + '</span><div class="section-line"></div>';
+
+  var entriesDiv = document.createElement('div');
+  entriesDiv.id = s.id + '-entries';
+
+  // Section-level business use bar only for hardware and furniture (not tel_int)
+  if (s.bizUse && s.id !== 'tel_int') {
+    var bizBar = document.createElement('div');
+    bizBar.className = 'section-biz-bar';
+    bizBar.innerHTML =
+      '<label>Section Business Use %</label>' +
+      '<div class="biz-pct-wrap">' +
+        '<input type="number" id="' + s.id + '-biz-pct" min="0" max="100" step="1" value="100" ' +
+          'oninput="applySectionBizPct(\'' + s.id + '\')">' +
+        '<span class="pct-symbol">%</span>' +
+      '</div>' +
+      '<span class="biz-hint">Sets default for new entries — existing entries can be overridden individually</span>';
+    section.appendChild(header);
+    section.appendChild(bizBar);
+  } else {
+    section.appendChild(header);
+  }
+
+  var btn = document.createElement('button');
+  btn.className = 'btn btn-secondary';
+  btn.textContent = '+ Add Entry';
+  btn.onclick = (function(sid, slabel, scode, sdescs, sbiz, sbizCond) {
+    return function() { addEntry(sid, slabel, scode, sdescs, sbiz, sbizCond); };
+  })(s.id, s.label, s.code, s.descs, s.bizUse, s.bizUseConditional);
+
+  section.appendChild(entriesDiv);
+  section.appendChild(btn);
+  container.appendChild(section);
+
+  // Only add a default blank entry if we're NOT going to restore (checked below)
+  addEntry(s.id, s.label, s.code, s.descs, s.bizUse, s.bizUseConditional);
 });
 
-// Add one initial entry per main section
-var sectionMap = {
-  revenue: ['Revenue', 100, null],
-  direct: ['Direct Costs', 200, null],
-  home: ['Use of Home', 300, homeDescriptions],
-  travel: ['Traveling Expenses', 301, travelDescriptions],
-  motor: ['Motor Expenses', 302, motorDescriptions],
-  phone: ['Telephone and Internet', 303, phoneDescriptions],
-};
-Object.keys(sectionMap).forEach(function(id) {
-  var info = sectionMap[id];
-  addEntry(id, info[0], info[1], '', info[2]);
+// Meta field changes also trigger save
+['meta-name','meta-quarter','meta-year'].forEach(function(id) {
+  var el = document.getElementById(id);
+  if (el) el.addEventListener('input', debouncedSave);
+  if (el) el.addEventListener('change', debouncedSave);
 });
+
+// Attempt to restore saved draft; if successful it rewrites entries
+var restored = loadState();
+if (!restored) {
+  var ind = document.getElementById('autosave-indicator');
+  var txt = document.getElementById('autosave-text');
+  if (ind) ind.style.opacity = '0.4';
+  if (txt) txt.textContent = 'No draft saved';
+}
 
 calcTotals();
-
-// Listen for changes on meta fields
-['meta-name','meta-quarter','meta-year'].forEach(function(id) {
-  document.getElementById(id).addEventListener('input', autoSave);
-  document.getElementById(id).addEventListener('change', autoSave);
-});
-
-// Check for saved data after page is fully built
-checkForSavedData();
 </script>
 </body>
 </html>
